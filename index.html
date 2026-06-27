@@ -41,7 +41,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "King Filter House",
-    "alternateName": "King Filter House Faisalabad",
+    "alternateName": ["King Filter House Faisalabad", "خان فلٹر ہاؤس"],
     "description": "Pakistan's trusted B2B industrial filter supplier. Specialized in oil filters, air filters, fuel filters, and hydraulic filters for petroleum, textile, and construction industries.",
     "url": "https://www.kingfilterhouse.com",
     "telephone": ["+923006600734", "+923226600734", "+923266450963"],
@@ -76,18 +76,21 @@
       "@type": "Country",
       "name": "Pakistan"
     },
-    "servesCuisine": null,
     "brand": {
       "@type": "Brand",
       "name": "King Filter House"
     },
-    "makesOffer": [
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Oil Filters", "description": "Industrial oil filters for heavy machinery and generators" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Air Filters", "description": "Industrial air filters for compressors, textile machinery and HVAC" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fuel Filters", "description": "Diesel and fuel injection filters for industrial engines" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Hydraulic Filters", "description": "Hydraulic system filters for construction and manufacturing equipment" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Transmission Filters", "description": "Transmission filters for heavy vehicles and industrial machinery" } }
-    ]
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Industrial Filters",
+      "itemListElement": [
+        { "@type": "OfferCatalog", "name": "Oil Filters", "description": "Industrial oil filters for heavy machinery and generators" },
+        { "@type": "OfferCatalog", "name": "Air Filters", "description": "Industrial air filters for compressors, textile machinery and HVAC" },
+        { "@type": "OfferCatalog", "name": "Fuel Filters", "description": "Diesel and fuel injection filters for industrial engines" },
+        { "@type": "OfferCatalog", "name": "Hydraulic Filters", "description": "Hydraulic system filters for construction and manufacturing equipment" },
+        { "@type": "OfferCatalog", "name": "Transmission Filters", "description": "Transmission filters for heavy vehicles and industrial machinery" }
+      ]
+    }
   }
   </script>
 
