@@ -1,0 +1,8 @@
+{
+  "name": "King Filter House FSD",
+  "description": "Custom business management software for King Filter House, Faisalabad. High-performance offline-first inventory module with advanced cross-referencing and normalized search ranking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

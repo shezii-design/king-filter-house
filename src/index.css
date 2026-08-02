@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;850&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Alex+Brush&family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Herr+Von+Muellerhoff&family=Pacifico&family=Parisienne&family=League+Script&family=Allura&family=Monsieur+La+Doulaise&family=Sacramento&family=Yellowtail&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* Custom sleek scrollbar for sidebar and full app layout */
+#nav-groups-container::-webkit-scrollbar {
+  width: 5px;
+}
+#nav-groups-container::-webkit-scrollbar-track {
+  background: #0D1625;
+}
+#nav-groups-container::-webkit-scrollbar-thumb {
+  background: #25334E;
+  border-radius: 4px;
+}
+#nav-groups-container::-webkit-scrollbar-thumb:hover {
+  background: #0EA5E9;
+}
+
+/* Custom smooth styling tweaks */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
