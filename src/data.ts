@@ -835,11 +835,19 @@ export const db = {
       const length_inch = p.length_inch !== undefined && p.length_inch !== null ? p.length_inch : null;
       const width_inch = p.width_inch !== undefined && p.width_inch !== null ? p.width_inch : null;
       const inner_diameter_inch = p.inner_diameter_inch !== undefined && p.inner_diameter_inch !== null ? p.inner_diameter_inch : null;
+
+      const image_url = p.image_url ? ensureHttpsUrl(p.image_url) : undefined;
+      const image_urls = Array.isArray(p.image_urls) ? p.image_urls.map((u: string) => ensureHttpsUrl(u)).filter(Boolean) : undefined;
+      const product_url = p.product_url ? ensureHttpsUrl(p.product_url) : undefined;
+
       return {
         ...p,
         length_inch,
         width_inch,
-        inner_diameter_inch
+        inner_diameter_inch,
+        image_url,
+        image_urls,
+        product_url
       };
     });
     return processed.filter((p: Product) => p.is_active);
@@ -852,17 +860,31 @@ export const db = {
       const length_inch = p.length_inch !== undefined && p.length_inch !== null ? p.length_inch : null;
       const width_inch = p.width_inch !== undefined && p.width_inch !== null ? p.width_inch : null;
       const inner_diameter_inch = p.inner_diameter_inch !== undefined && p.inner_diameter_inch !== null ? p.inner_diameter_inch : null;
+
+      const image_url = p.image_url ? ensureHttpsUrl(p.image_url) : undefined;
+      const image_urls = Array.isArray(p.image_urls) ? p.image_urls.map((u: string) => ensureHttpsUrl(u)).filter(Boolean) : undefined;
+      const product_url = p.product_url ? ensureHttpsUrl(p.product_url) : undefined;
+
       return {
         ...p,
         length_inch,
         width_inch,
-        inner_diameter_inch
+        inner_diameter_inch,
+        image_url,
+        image_urls,
+        product_url
       };
     });
   },
 
   saveProducts: (products: Product[]) => {
-    saveItem('kfh_products', JSON.stringify(products), "Products state updated");
+    const sanitized = products.map((p) => ({
+      ...p,
+      image_url: p.image_url ? ensureHttpsUrl(p.image_url) : undefined,
+      image_urls: Array.isArray(p.image_urls) ? p.image_urls.map((u) => ensureHttpsUrl(u)).filter(Boolean) : undefined,
+      product_url: p.product_url ? ensureHttpsUrl(p.product_url) : undefined,
+    }));
+    saveItem('kfh_products', JSON.stringify(sanitized), "Products state updated");
   },
 
   getCrossRefs: (): CrossReference[] => {

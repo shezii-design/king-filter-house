@@ -58,40 +58,40 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Prepare target request (Auto-upgrade http to https if app origin is https to prevent Mixed Content errors)
+  let targetReq = request;
+  if (url.protocol === 'http:' && self.location.protocol === 'https:') {
+    try {
+      const httpsUrl = request.url.replace(/^http:/i, 'https:');
+      targetReq = new Request(httpsUrl, {
+        mode: request.mode === 'navigate' ? 'same-origin' : 'cors',
+        credentials: request.credentials,
+        headers: request.headers,
+        redirect: request.redirect,
+      });
+    } catch (e) {
+      targetReq = request;
+    }
+  }
+
   // Handle app requests cleanly with async function returning a Response
   event.respondWith(
     (async () => {
       // 1. Check cache first
       let cachedResponse;
       try {
-        cachedResponse = await caches.match(request);
+        cachedResponse = await caches.match(targetReq);
       } catch (err) {
         // ignore cache match error
       }
 
       // If cached, return cached response & trigger background revalidation
       if (cachedResponse) {
-        fetchAndCache(request).catch(() => {});
+        fetchAndCache(targetReq).catch(() => {});
         return cachedResponse;
       }
 
-      // 2. Prepare target request (Auto-upgrade http to https if app origin is https to prevent Mixed Content errors)
-      let targetReq = request;
-      if (url.protocol === 'http:' && self.location.protocol === 'https:') {
-        try {
-          const httpsUrl = request.url.replace(/^http:/i, 'https:');
-          targetReq = new Request(httpsUrl, {
-            mode: request.mode === 'navigate' ? 'same-origin' : 'cors',
-            credentials: request.credentials,
-            headers: request.headers,
-            redirect: request.redirect,
-          });
-        } catch (e) {
-          targetReq = request;
-        }
-      }
-
-      // 3. Perform network fetch
+      // 2. Perform network fetch
       try {
         const networkResponse = await fetch(targetReq);
         if (
@@ -100,7 +100,7 @@ self.addEventListener('fetch', (event) => {
         ) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache).catch(() => {});
+            cache.put(targetReq, responseToCache).catch(() => {});
           });
         }
         return networkResponse;
@@ -136,7 +136,18 @@ self.addEventListener('fetch', (event) => {
 // Helper for background cache revalidation
 async function fetchAndCache(request) {
   try {
-    const networkResponse = await fetch(request);
+    let reqToFetch = request;
+    if (typeof request.url === 'string' && request.url.startsWith('http:') && self.location.protocol === 'https:') {
+      try {
+        reqToFetch = new Request(request.url.replace(/^http:/i, 'https:'), {
+          mode: request.mode === 'navigate' ? 'same-origin' : 'cors',
+          credentials: request.credentials,
+          headers: request.headers,
+          redirect: request.redirect,
+        });
+      } catch (err) {}
+    }
+    const networkResponse = await fetch(reqToFetch);
     if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
       const responseToCache = networkResponse.clone();
       const cache = await caches.open(CACHE_NAME);
